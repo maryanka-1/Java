@@ -1,0 +1,40 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+public class Program {
+    public static void main(String[] args) {
+        int count = parse(args);
+        PrintThread thread1 = new PrintThread("Egg", count);
+        PrintThread thread2 = new PrintThread("Heg", count);
+        thread1.start();
+        thread2.start();
+        try {
+            thread1.join();
+            thread2.join();
+            for (int i = 0; i < count; i++) {
+                System.out.println("Human");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+
+    }
+
+    public static int parse(String[] args) {
+        int a = 0;
+        if (args.length != 1) {
+            System.out.println("Usage: java Program --count=50");
+        } else {
+            String[] tmp = args[0].split("=");
+            try {
+                a = Integer.parseInt(tmp[1]);
+            } catch (java.lang.Exception e) {
+                System.out.println("After '=' must be integer");
+            }
+        }
+        return a;
+    }
+}
