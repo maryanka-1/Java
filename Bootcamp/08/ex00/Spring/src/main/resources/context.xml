@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="preProcessorToLowerImpl" class="preprocessor.PreProcessorToLowerImpl"> </bean>
+    <bean id="preProcessorToUpperImpl" class="preprocessor.PreProcessorToUpperImpl"> </bean>
+
+    <bean id="rendererErrUp"
+          class="renderer.RendererErrImpl">
+        <constructor-arg ref="preProcessorToUpperImpl"/>
+    </bean>
+    <bean id="rendererErrLow"
+          class="renderer.RendererErrImpl">
+        <constructor-arg ref="preProcessorToLowerImpl"/>
+    </bean>
+    <bean id="rendererStandardUp"
+          class="renderer.RendererStandardImpl">
+        <constructor-arg ref="preProcessorToUpperImpl"/>
+    </bean>
+    <bean id="rendererStandardLow"
+          class="renderer.RendererStandardImpl">
+        <constructor-arg ref="preProcessorToLowerImpl"/>
+    </bean>
+
+    <bean id="printerWithDateStdUp"
+          class="printer.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererStandardUp"/>
+    </bean>
+    <bean id="printerWithDateStdLow"
+          class="printer.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererStandardLow"/>
+    </bean>
+    <bean id="printerWithDateErrUp"
+          class="printer.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererErrUp"/>
+    </bean>
+    <bean id="printerWithDateErrLow"
+          class="printer.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererErrLow"/>
+    </bean>
+
+    <bean id="printerWithPrefixStdUp"
+          class="printer.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererStandardUp"/>
+        <property name="prefix" value="Prefix Up - "/>
+    </bean>
+    <bean id="printerWithPrefixStdLow"
+          class="printer.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererStandardLow"/>
+        <property name="prefix" value="Prefix Low - "/>
+    </bean>
+    <bean id="printerWithPrefixErrUp"
+          class="printer.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererErrUp"/>
+        <property name="prefix" value="Error prefix up - "/>
+    </bean>
+
+    <bean id="printerWithPrefixErrLow"
+          class="printer.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererErrLow"/>
+        <property name="prefix" value="Error prefix low - "/>
+    </bean>
+
+
+</beans>
